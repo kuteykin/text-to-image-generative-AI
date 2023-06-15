@@ -80,6 +80,8 @@ Consists of two parts
 ###
 ### Subfolder `/templates` HTML templates for frontend
 ###
+### Subfolder `/notebooks` Jupyter notebooks for script testing on Google Colab
+###
 ### Subfolder `/Users` User-specific files (custom finetuned models, image datasets used for model customisation, saved output images)
 ###
 ### Subfolder `/HF_models` Text-to-Image models downloaded from HuggingFace
