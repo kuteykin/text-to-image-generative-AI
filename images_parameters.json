@@ -1,0 +1,87 @@
+{
+    "chatgpt_prompts": {
+        "Detect": {
+            "prompt_prefix": "",
+            "prompt_suffix": "It was the {phrase}. You are a very advanced linguist with twenty years of experience. I would like you to help me to identify the class of the objects that appear in this {phrase} - are there  people, a single person or no humans mentioned? You have a string variable called {final_answer} which can only contain one word, the class of the objects mentioned in the {phrase}, and the value of this variable may be changed following this algorithm. The initial value of {final_answer}  variable is OTHERS. If the {phrase} refers to a single person only, or if the {phrase} contains the name of profession in the singular, or if {phrase} contains a name of a person in the singular, then change the value of  {final_answer}  variable to  PERSON . If the {phrase} describes several people, or if the {phrase} refers to a group of people, or if the {phrase} mentions a profession in the plural, change the value of {final_answer} variable to PEOPLE . If no person or people detected, {final_answer} will keep its original value  OTHERS . Please report the final value of the variable {final_answer}, your output must be just one word from the list [PERSON, PEOPLE, OTHERS]. I will provide you with some examples of input {phrase} and your desired uotput. Example 1: If {phrase} = 'Fireworkers in front of burning building', then your output is PEOPLE . Example 2: If {phrase} = 'Doctor in a hospital', then your output is PERSON .  Respond in one word without punctuation, {final_answer}?",
+            "temperature": 0
+        },
+
+        "Image": {
+            "prompt_prefix": "",
+            "prompt_suffix": "What image could represent ideas described above?  Determine the main subject of such image from the ideas described above, the properties of main subject  and circumstancies describing the situation. This description must serve as prompt for downstream text-to-image generation. Use following prompt formula: (main subject of image), (5 adjectives describing properties of this main objects), (verb that subject is performing), (in which circumstances).Output must be one sentence as shown in prompt formula.",
+            "temperature": 0.75
+        },
+
+        "Photo": {
+            "prompt_prefix": "",
+            "prompt_suffix": "What photo could represent ideas described above?  Determine the main subject of such image from the ideas described above, the properties of main subject  and circumstancies describing the situation. This description must serve as prompt for downstream text-to-image generation. Use following prompt formula: (object of image), (5 descriptive keywords), (camera type), (camera lens type), (time of day), (lighting), (style of photograph), (type of film). Output must be one sentence as shown in  prompt formula, without mentioning a word 'photo'",
+            "temperature": 0.5
+        }
+    },
+
+
+    "object_style": {
+        "Photography": {
+            "prompt_prefix": "Photo of",
+            "prompt_suffix": "excellent composition, main object in the middle, very inspirational, aesthetic, award winning photo, highly detailed, in a charming style",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Oil": {
+            "prompt_prefix": "Oil painting of",
+            "prompt_suffix": "excellent composition, main object in the middle, very inspirational",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Line": {
+            "prompt_prefix": "Line art image of",
+            "prompt_suffix": "excellent composition, very inspirational",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Anime": {
+            "prompt_prefix": "Anime cartoon of",
+            "prompt_suffix": "excellent composition",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Architecture": {
+            "prompt_prefix": "Isometric architecture illustration of",
+            "prompt_suffix": "rendered in Autodesk 3ds Max, editorial style, excellent quality",
+            "negative_prompt": "front view of people, human faces, human face, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Watercolors": {
+            "prompt_prefix": "Watercolors image of",
+            "prompt_suffix": "excellent composition, main object in the middle",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        },
+
+        "Portrait": {
+            "prompt_prefix": "Portrait of",
+            "prompt_suffix": "precise correct anatomy, aesthetic, award winning photo, 50mm portrait photography, highly detailed",
+            "negative_prompt": "low poly, low-poly, ugly, tiling, poorly drawn hands, poorly drawn feet, poorly drawn face, out of frame, extra limbs, disfigured, deformed, body out of frame, bad anatomy, watermark, signature, cut off, low contrast, underexposed, overexposed, bad art, beginner, amateur, distorted face"
+        }
+    },
+    
+
+    "sdiff_models": {
+        "regular": {
+            "name": "stabilityai/stable-diffusion-2-1-base",
+            "resolution": 512,
+            "description": "Basic SDiff model, does not work for groups of people"
+        },
+
+        "high_res": {
+            "name": "stabilityai/stable-diffusion-2-1",
+            "resolution": 768,
+            "description": "The same training dataset as Basic SDiff model, but 768x768 px"
+        },
+
+        "photorealistic": {
+            "name": "dreamlike-art/dreamlike-photoreal-2.0",
+            "resolution": 768,
+            "description": "Optimised for photos depicting people"
+        }
+    }
+}

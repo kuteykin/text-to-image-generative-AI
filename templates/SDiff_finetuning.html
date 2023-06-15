@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Create a custom generative AI model for an object in particular style</title>
+  </head>
+  <body>
+    <h1>Create a custom generative AI model for an object in particular style</h1>
+    <h2>COMMERCIAL USE IS FORBIDDEN</h2>
+    <h3>&copy; Konstantin Kuteykin-Teplyakov, 2023</h3>
+
+
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+      <label for="user_id">User ID:</label>
+      <input type="text" id="user_id" name="user_id" required>
+      <br>
+      <label for="training_prompt">What is the name of the object used for model customisation? Give ONE name to all your images</label>
+      <input type="text" id="training_prompt" name="training_prompt" required>
+      <br>
+      <label for="sdiff_model_type">Images resolution:</label>
+      <select id="sdiff_model_type" name="sdiff_model_type" required>
+        <option value="regular">Regular resolution, 512x512 px</option>
+        <option value="high_res">High resolution, 768x768 px (double price!)</option>
+	    </select><br><br>
+      
+      <label for="files">Please upload 7-15 different images of ONE specific kind of objects. All images must be in the same format and have size 512x512 px (for model of regular resolution) or 768x768 px (for high-resolution model): </label>
+      <br><br>
+      <input type="file" id="files" name="files" multiple required>
+      <br>
+      <input type="submit" value="Upload and Finetune">
+    </form>
+    <br><br>
+
+    <div id="status"></div>
+    <script type="text/javascript" src="../static/images_finetuning.js"></script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flexible Image Generation</title>
+</head>
+<body>
+    <h1>Flexible Image Generation (multi-user version, supports custom fine-tuned models)</h1>
+    <h2>COMMERCIAL USE IS FORBIDDEN</h2>
+    <h3>&copy; Konstantin Kuteykin-Teplyakov, 2023</h3>
+
+
+    <form id="inference-form">
+<!----- This block is intended for testing purposes, replace it for production -------------->
+<!-----Pre-processed input will be received from Front-end, so no *processed_input* field required ------>
+        <label for="processed_input"><b>User input after preporecessing</b> <br>
+        <i>Unite(KEYWORDS) + Extract(Free_text_input) </i>:</label>
+        <textarea name="processed_input" required></textarea><br><br>
+        <br><br>
+<!-----End of the debugging block: for production remove the block above ---------->
+
+        <label for="object_style"><b>Image Style:</b></label>
+            <select name="object_style"  required>
+                <option value='Photography'>Photography</option>
+                <option value='Portrait'>Photorealistic Portrait</option>
+                <option value='Oil'>Oil painting</option>
+                <option value='Line'>Line Art</option>
+                <option value='Anime'>Anime cartoon</option>
+                <option value='Architecture'>Architecture illustration</option>
+                <option value='Watercolors'>Watercolors (aquarelle)</option>
+            </select><br><br>
+        <label for="sdiff_model">Basic Model:</label>
+            <select name="sdiff_model" required>
+                <option value="regular">Regular resolution (1 credit)...........[compatible with Customized Models]</option>
+                <option value="high_res">High resolution (2 credits)</option>
+                <option value="photorealistic">Optimised for photos depicting people, high resolution (2 credits)</option>
+            </select><br><br>
+        <label for="lora_index"></b>Use Custom Model for: </b>  
+            <select name="lora_index">
+                {% for prompt in custom_model_prompts %}
+                    {% set index = loop.index0 %}
+                    <option value="{{ index }}">{{ prompt }}</option>
+                {% endfor %}
+            </select><br>
+            <i>(list of all available customised objects)</i> <br>
+            If Custom Model is selected, the final images will be generated in the same style as the original object images used for customisation! 
+        <br><br>
+
+        <label for="num_inference_steps">Number of Inference Steps:</label>
+        <select name="num_inference_steps" required>
+            <option value=25>Draft quality - fast (1 credit) </option>
+            <option value=50>Good quality - a bit slower (2 credits)</option>
+            <option value=75>Improved quality - slow (3 credits)</option>
+
+        </select><br><br>
+        <input type="submit" value="Generate images">
+    </form>
+    <br><br>
+
+    <div id="output"></div>
+
+ <!-- JavaScript files -->
+ <script src="../static/jquery.min.js"></script>
+ <script type="text/javascript" src="../static/images_inference.js"></script>
+</body>
+</html>
