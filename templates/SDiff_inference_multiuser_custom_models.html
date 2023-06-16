@@ -10,13 +10,9 @@
 
 
     <form id="inference-form">
-<!----- This block is intended for testing purposes, replace it for production -------------->
-<!-----Pre-processed input will be received from Front-end, so no *processed_input* field required ------>
-        <label for="processed_input"><b>User input after preporecessing</b> <br>
-        <i>Unite(KEYWORDS) + Extract(Free_text_input) </i>:</label>
+        <label for="processed_input"><b>Object for image generation</b> <br>
         <textarea name="processed_input" required></textarea><br><br>
         <br><br>
-<!-----End of the debugging block: for production remove the block above ---------->
 
         <label for="object_style"><b>Image Style:</b></label>
             <select name="object_style"  required>
