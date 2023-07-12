@@ -11,9 +11,9 @@
 ###
 ## Root folder , files to copy to GPU-enabled backend server *(please keep this folder structure!)*.
 
-`initial_setup.sh` Run this bash script to install the *sdiff_env* Python environment and create all necessary subdirectories. 
 
-`requirements.txt` Environment description - list of Python libraries required for this module.
+
+`poetry.lock` , `pyproject.toml` Environment description - list of Python libraries required for this module for Poetry
 
 `download_sdiff_model.py` Run this file to download text-to-image *diffusers* models from Hugging Face (at least 3 models, *regular*, *high_res* and *photoreastic* are essential for the current Python scripts). Models are saved in *./HF_models/*.
 
