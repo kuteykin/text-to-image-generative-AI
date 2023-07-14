@@ -32,8 +32,14 @@ def generate_images(
     from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
     from flask import jsonify
     import io
+    import logging
     from pathlib import Path
     import torch
+
+    # Set up logging
+    logging.basicConfig(
+        level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+    )
 
     # Convert paths to PosixPath
     MODEL_PATH = Path(MODEL_PATH)
@@ -50,15 +56,15 @@ def generate_images(
         )
         pipeline.to("cuda")
         pipeline.enable_xformers_memory_efficient_attention()
-        print(f"Successfully loaded base model {MODEL_PATH}")
+        logging.debug(f"Successfully loaded base model {MODEL_PATH}")
     else:
-        print(
+        logging.debug(
             "*** ERROR: Base SDiff model not found. *** \nPlease run *download_sdiff_model.py* to DOWNLOAD the base model and save it locally.\n *** EXIT! *** \n"
         )
         return jsonify({"error": "Base model not found  - EXIT!"}), 400
 
     if custom_model_path.is_file():
-        print(f"Custom model used: {custom_model_path}")
+        logging.debug(f"Custom model used: {custom_model_path}")
         model_name = custom_model_path.name
         pipeline.unet.load_attn_procs(custom_model_path)
     else:
@@ -84,7 +90,7 @@ def generate_images(
         Path(output_path).mkdir(parents=True, exist_ok=True)
         for idx, im in enumerate(created_images):
             im.save(f"{output_path}/{idx}.png")
-        print(
+        logging.debug(
             f"Images saved on local drive in [{USER_DIR}/output/{model_name}/{prompt_as_path}] folder"
         )
 
@@ -108,8 +114,9 @@ def ask_chatgpt(input, task, dict):
     # Load necessary libraries
     import openai
     import os
+
     openai.api_key = os.getenv("OPENAI_API_KEY")
-    
+
     # Generate ChatGPT prompt
     chatgpt_prompt = (
         f"{dict[task]['prompt_prefix']} {input} {dict[task]['prompt_suffix']}"

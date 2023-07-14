@@ -16,12 +16,18 @@ from images_functions import ask_chatgpt, generate_images
 from flask import Flask, render_template, request, Response
 from flask_cors import CORS
 import json
+import logging
 from pathlib import Path
 from waitress import serve
 
 
 app = Flask(__name__)
 CORS(app)
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # get the current working directory
 START_DIR = Path(__file__).parent
@@ -41,6 +47,7 @@ def index():
     ### Replace FRONTEND with URL on host (IP:port/path/filename.html) #############################
     # return render_template('FRONTEND//path_on_frontend//iSDiff_inference_basic.html')
     return render_template("SDiff_inference_basic.html")
+
 
 # Define a route for the inference endpoint
 @app.route("/inference", methods=["POST"])
@@ -70,10 +77,10 @@ def inference():
     # Define the paths and parameters
     MODEL_PATH = START_DIR / "HF_models" / sdiff_model
 
-    print("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
+    logging.debug("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
 
     # Print image generation data for debugging
-    print(f"SDiff model: {MODEL_PATH}\n Prompt: {image_prompt}")
+    logging.debug(f"SDiff model: {MODEL_PATH}\n Prompt: {image_prompt}")
 
     # Send the image bytes to the frontend
     image_response = json.dumps(

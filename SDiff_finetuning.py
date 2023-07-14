@@ -15,8 +15,9 @@
 import json
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+import logging
 from pathlib import Path
-from slugify import slugify
+import slugify
 import subprocess
 import shutil
 from waitress import serve
@@ -28,6 +29,11 @@ CORS(app)
 # get the current working directory
 START_DIR = Path(__file__).parent  # directory of the current file
 parameters_file = START_DIR / "images_parameters.json"
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -50,9 +56,9 @@ def upload():
     # convert training prompt to a valid directory name
     prompt_as_path = slugify(training_prompt)
 
-    print(f"User: {user_id}\n Training Prompt: {training_prompt}")
+    logging.debug(f"User: {user_id}\n Training Prompt: {training_prompt}")
 
-    print("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
+    logging.debug("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
 
     # construct file paths
     USER_DIR = START_DIR / "Users" / user_id
@@ -70,7 +76,7 @@ def upload():
     for file in files:
         filename = file.filename
         file.save(TRAINING_DATA_PATH / filename)
-    print("\n*** Files uploaded successfully *** \n")
+    logging.debug("\n*** Files uploaded successfully *** \n")
     return jsonify({"message": "Files uploaded successfully"}), 200
 
 
@@ -104,19 +110,21 @@ def finetuning():
     # print some debug info
     print("*** FINETUNING ***")
 
-    print("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
+    logging.debug("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
 
-    print("User: ", user_id)
-    print("Training Prompt: ", training_prompt)
-    print("Stable Diffusion Model: ", sdiff_model)
-    print("Loading training images from: ", TRAINING_DATA_PATH)
+    logging.debug("User: ", user_id)
+    logging.debug("Training Prompt: ", training_prompt)
+    logging.debug("Stable Diffusion Model: ", sdiff_model)
+    logging.debug("Loading training images from: ", TRAINING_DATA_PATH)
 
     ### set CUDA_VISIBLE_DEVICES environment variable to 1 (assuming you have one GPU) ##############
     # os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     ### For production MODIFY the line above ########################################################
 
     # Launch train_dreambooth_lora.py with command line parameters
-    print("Training is running, ETA = 4 min. for *512 px*, ETA = 9 min. for *768 px* for NVIDIA V100 GPU")
+    print(
+        "Training is running, ETA = 4 min. for *512 px*, ETA = 9 min. for *768 px* for NVIDIA V100 GPU"
+    )
     subprocess.run(
         [
             "accelerate",
@@ -148,13 +156,13 @@ def finetuning():
     # Rename LoRA model
     created_model = LORA_DIR / "pytorch_lora_weights.bin"
     LORA_PATH = created_model.rename(LORA_DIR / f"{prompt_as_path}__{sdiff_model}.bin")
-    print("Model saved as ", LORA_PATH)
+    logging.debug("Model saved as ", LORA_PATH)
 
     # Cleaning up - Remove intermediate checkpoints
     shutil.rmtree(LORA_DIR / "checkpoint-250")
     shutil.rmtree(LORA_DIR / "checkpoint-500")
 
-    print("*** Finetuning finished successfully! ***\n")
+    logging.debug("*** Finetuning finished successfully! ***\n")
 
     # return success message
     return jsonify({"message": "Fine-tuning completed!"}), 200

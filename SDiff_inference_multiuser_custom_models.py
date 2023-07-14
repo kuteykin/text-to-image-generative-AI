@@ -16,6 +16,7 @@ from images_functions import ask_chatgpt, generate_images
 from flask import Flask, render_template, request, Response
 from flask_cors import CORS
 import json
+import logging
 from pathlib import Path
 from re import match
 from waitress import serve
@@ -23,6 +24,11 @@ from waitress import serve
 
 app = Flask(__name__)
 CORS(app)
+
+# Set up logging
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # Get the current working directory
 START_DIR = Path(__file__).parent
@@ -61,7 +67,8 @@ def index():
     ### Replace FRONTEND with URL on host (IP:port/path/filename.html) ##############################
     # return render_template('FRONTEND//path_on_frontend//SDiff_inference_multiuser_custom_models.html')
     return render_template(
-        "SDiff_inference_multiuser_custom_models.html", custom_model_prompts=custom_model_prompts
+        "SDiff_inference_multiuser_custom_models.html",
+        custom_model_prompts=custom_model_prompts,
     )
 
 
@@ -81,8 +88,7 @@ def inference():
 
     LORA_PATH = LORA_DIR / lora_model
 
-    print("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
-
+    logging.debug("\n*** COMMERCIAL USE IS FORBIDDEN ***\n")
 
     # Retrieve available image parameters from JSON file
     with open(parameters_file) as json_file:
@@ -93,10 +99,10 @@ def inference():
     sdiff_model = images_dict["sdiff_models"][sdiff_model_type]["name"].split("/")[-1]
 
     # Print the retrieved data for debugging
-    print("Stable Diffusion Model selected by User: ", sdiff_model)
-    print("User folder: ", USER_DIR)
-    print("lora prompt=", lora_prompt)
-    print("Finetuned LoRA Model (selected on Frontend): ", LORA_PATH)
+    logging.debug("Stable Diffusion Model selected by User: ", sdiff_model)
+    logging.debug("User folder: ", USER_DIR)
+    logging.debug("lora prompt=", lora_prompt)
+    logging.debug("Finetuned LoRA Model (selected on Frontend): ", LORA_PATH)
 
     # Automatic prompt generation
     task_1 = "Photo" if object_style == "Photography" else "Image"
@@ -120,8 +126,8 @@ def inference():
 
     # Print the retrieved data for debugging
 
-    print("Basic model path: ", MODEL_PATH)
-    print(
+    logging.debug("Basic model path: ", MODEL_PATH)
+    logging.debug(
         f"Model used for image generation: {model_name} \nConstructed Prompt: {image_prompt}\n"
     )
 
