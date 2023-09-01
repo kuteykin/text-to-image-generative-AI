@@ -72,7 +72,7 @@
         "regular": {
             "name": "stabilityai/stable-diffusion-2-1-base",
             "resolution": 512,
-            "description": "Optimised for photos depicting people"
+            "description": "Old SDiff-2-1 model with 512x512 px"
         }
     }
 }
