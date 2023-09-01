@@ -78,12 +78,15 @@ def inference():
             chatgpt_response_prompt, "Detect", images_dict["chatgpt_prompts"]
         )
         logging.debug(f"Detected object: {detected_object}")
-        if "PEOPLE" in detected_object:
+        if "People" in detected_object:
             sdiff_model_type = "photorealistic"
             object_style = "Photography"
-        elif "PERSON" in detected_object:
+        elif "Person" in detected_object:
             sdiff_model_type = "photorealistic"
             object_style = "Portrait"
+        elif "Architecture" in detected_object:
+            sdiff_model_type = "regular"
+            object_style = "Architecture"
         else:
             sdiff_model_type = "high_res"
             object_style = "Photography"
