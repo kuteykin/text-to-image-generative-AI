@@ -3,7 +3,7 @@ name = "sdiff"
 version = "0.1.0"
 description = "Stable Diffusion"
 authors = ["Konstantin Kuteykin <konstantin.kuteykin@upf.edu>"]
-license = "For educational purposes; commertial use is not allowed"
+license = "For educational purposes only; commercial use is not allowed"
 readme = "README.md"
 
 [tool.poetry.dependencies]
@@ -39,7 +39,7 @@ torchdata = "0.5.1"
 torchmetrics = ">=1.0.1"
 torchvision = "0.14.1"
 tqdm = ">=4.65.0"
-transformers = "4.19.1"
+transformers = "^4.32.1"
 triton = "2.0.0.post1"
 urllib3 = ">=1.25.4,<1.27"
 wandb = ">=0.15.6"
@@ -49,6 +49,10 @@ xformers = "0.0.16"
 flask = "^2.3.3"
 flask-cors = "^4.0.0"
 waitress = "^2.1.2"
+diffusers = "^0.20.2"
+clip = "^0.2.0"
+openai = "^0.28.0"
+accelerate = "^0.22.0"
 
 
 [build-system]
